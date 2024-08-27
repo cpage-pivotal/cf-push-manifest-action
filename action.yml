@@ -33,7 +33,7 @@ runs:
       env:
         CF_API: ${{ inputs.cf_api }}
         CF_USER: ${{ inputs.cf_user }}
-        CF_PASSWORD: ${{ secrets.cf_password }}
+        CF_PASSWORD: ${{ inputs.cf_password }}
         CF_ORG: ${{ inputs.cf_org }}
         CF_SPACE: ${{ inputs.cf_space }}
         MANIFEST_FILE: ${{ inputs.manifest_file }}
