@@ -1,0 +1,63 @@
+# action.yml
+name: 'Tanzu Deploy'
+description: 'Deploy an application to Tanzu Platform for Kubernetes'
+branding:
+  icon: code
+  color: green
+inputs:
+  tanzu_api_token:
+    description: 'API Token used to authenticate to Tanzu Platform'
+    required: true
+  container_registry:
+    description: 'Registry you will push images to (e.g. myrepo.azurecr.io/build/{name}'
+    required: true
+  project:
+    description: 'Tanzu Platform project'
+    required: true
+  space:
+    description: 'Tanzu Platform space'
+    required: true
+  buildPlanSource:
+    description: '(Optional) Name of custom build plan'
+    required: false
+    default: 'simple.tanzu.vmware.com'
+  javaVersion:
+    description: 'JVM version to be used for Java workloads'
+    required: false
+    default: '17'
+  artifactory_token:
+    description: 'Token for Spring Enterprise Subscription'
+    required: true
+  app_advisor_server:
+    description: 'URL endpoint for Spring Application Advisor'
+    required: true
+  git_token:
+    description: 'Authentication token for generating pull requests against repo'
+    required: true
+#outputs:
+#  time: # id of output
+#    description: 'The time we greeted you'
+runs:
+  using: 'composite'
+  steps:
+    - name: Log into Tanzu Platform
+      run: ${{ github.action_path }}/login-platform.sh
+      shell: bash
+      env:
+        TANZU_API_TOKEN: ${{ inputs.tanzu_api_token }}
+#    - name: Deploy Application
+#      run: ${{ github.action_path }}/deploy-app.sh
+#      shell: bash
+#      env:
+#        CONTAINER_REGISTRY: ${{ inputs.container_registry }}
+#        PROJECT: ${{ inputs.project }}
+#        SPACE: ${{ inputs.space }}
+#        BUILD_PLAN_SOURCE: ${{ inputs.buildPlanSource }}
+#        JAVA_VERSION: ${{ inputs.javaVersion }}
+    - name: Run App Advisor
+      run: ${{ github.action_path }}/app-advisor.sh
+      shell: bash
+      env:
+        ARTIFACTORY_TOKEN: ${{ inputs.artifactory_token }}
+        APP_ADVISOR_SERVER: ${{ inputs.app_advisor_server }}
+        GIT_TOKEN_FOR_PRS: ${{ inputs.git_token }}
