@@ -22,8 +22,12 @@ inputs:
     required: true
   manifest_file:
     description: 'Path and filename for Cloud Foundry manifest file'
-    required: true
-    default: './cf-manifest.yaml'
+    required: false
+    default: './manifest.yml'
+  tests:
+    description: 'Boolean indicator of whether to run unit tests as part of the build'
+    required: false
+    default: 'true'
 runs:
   using: 'composite'
   steps:
@@ -37,3 +41,4 @@ runs:
         CF_ORG: ${{ inputs.cf_org }}
         CF_SPACE: ${{ inputs.cf_space }}
         MANIFEST_FILE: ${{ inputs.manifest_file }}
+        TESTS: ${{ inputs.tests }}

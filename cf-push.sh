@@ -8,6 +8,10 @@ install /tmp/cf8 /usr/local/bin/cf
 cf login -a $CF_API -u $CF_USER -p $CF_PASSWORD
 cf target -o $CF_ORG -s $CF_SPACE
 
-./mvnw package -DskipTests
+if [ "$TESTS" == 'true' ]
+then
+  ./mvnw package
+else
+  ./mvnw package -DskipTests
 
 cf push -f $MANIFEST_FILE

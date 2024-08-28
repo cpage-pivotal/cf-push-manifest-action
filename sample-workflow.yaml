@@ -21,4 +21,4 @@ jobs:
           cf_password: ${{ secrets.CF_PASSWORD }}
           cf_org: <<ENTER VALUE>>
           cf_space: <<ENTER VALUE>>
-          manifest_file: ./cf-manifest.yaml
+          manifest_file: ./manifest.yml
